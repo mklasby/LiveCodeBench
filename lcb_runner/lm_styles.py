@@ -33,6 +33,8 @@ class LMStyle(Enum):
     DeepSeekR1 = "DeepSeekR1"
 
     TogetherAI = "TogetherAI"
+    Qwen3NoThinking = "Qwen3NoThinking"
+    FuseBase = "FuseBase"
 
 
 @dataclass
@@ -693,6 +695,13 @@ LanguageModelList: list[LanguageModel] = [
         link="https://huggingface.co/Qwen/Qwen3-235B-A22B",
     ),
     LanguageModel(
+        "Qwen/Qwen3-30B-A3B",
+        "Qwen3-30B-A3B",
+        LMStyle.FuseBase,
+        datetime(2024, 6, 30),
+        link="https://huggingface.co/Qwen/Qwen3-30B-A3B",
+    ),
+    LanguageModel(
         "azerogpt",
         "AzeroGPT-64b",
         LMStyle.CodeQwenInstruct,
@@ -860,6 +869,20 @@ LanguageModelList: list[LanguageModel] = [
         LMStyle.DeepSeekR1,
         datetime(2024, 4, 1),
         "https://huggingface.co/agentica-org/DeepCoder-14B-Preview",
+    ),
+    LanguageModel(
+        "baidu/ERNIE-4.5-21B-A3B-PT",
+        "ERNIE-4.5-21B-A3B-PT",
+        LMStyle.FuseBase,
+        datetime(2024, 4, 1),
+        "https://huggingface.co/baidu/ERNIE-4.5-21B-A3B-PT",
+    ),
+    LanguageModel(
+        "mistralai/Mixtral-8x7B-Instruct-v0.1",
+        "Mixtral-8x7B-Instruct-v0.1",
+        LMStyle.FuseBase,
+        datetime(2024, 4, 1),
+        "https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1",
     ),
 ]
 

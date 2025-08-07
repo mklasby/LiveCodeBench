@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 
 from lcb_runner.runner.parser import get_args
 from lcb_runner.utils.scenarios import Scenario
@@ -13,6 +14,9 @@ from lcb_runner.runner.scenario_router import (
     sort_and_extract_save_results,
     get_metrics,
 )
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def main():

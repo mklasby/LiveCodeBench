@@ -1,6 +1,7 @@
 import os
 import json
 from abc import ABC, abstractmethod
+import logging
 
 from tqdm import tqdm
 
@@ -9,6 +10,7 @@ from lcb_runner.utils.path_utils import get_cache_path
 from lcb_runner.utils.multiprocess import run_tasks_in_parallel
 from lcb_runner.runner.scenario_router import Scenario
 
+logger = logging.getLogger(__name__)
 
 class BaseRunner(ABC):
     def __init__(self, args, model: LanguageModel):
@@ -177,5 +179,7 @@ class BaseRunner(ABC):
         prompts = [
             format_prompt(problem, self.model.model_style) for problem in benchmark
         ]
+        logger.info(f'Example prompt: {prompts[0]}')
+        
         outputs = self.prompts_to_outputs(prompts)
         return outputs

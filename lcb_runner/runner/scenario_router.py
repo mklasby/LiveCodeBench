@@ -1,4 +1,5 @@
 from typing import Union
+from functools import partial
 
 from lcb_runner.utils.scenarios import Scenario
 from lcb_runner.lm_styles import LanguageModel
@@ -58,7 +59,8 @@ def build_prompt_benchmark(
                 end_date=args.end_date
             )
         benchmark = sorted(benchmark, key=lambda x: x.question_id)
-        format_prompt = format_prompt_generation
+        # format_prompt = format_prompt_generation
+        format_prompt = partial(format_prompt_generation, hf_model_name=args.model)
     elif scenario == Scenario.testoutputprediction:
         benchmark = load_test_prediction_dataset(args.release_version)
         benchmark = sorted(benchmark, key=lambda x: (x.question_id, x.test_id))

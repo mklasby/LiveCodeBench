@@ -90,7 +90,7 @@ def get_args():
         default=12,
         help="Number of processes to use for evaluation",
     )
-    parser.add_argument("--timeout", type=int, default=6, help="Timeout for evaluation")
+    parser.add_argument("--timeout", type=int, default=60, help="Timeout for evaluation")
     parser.add_argument(
         "--openai_timeout", type=int, default=90, help="Timeout for requests to OpenAI"
     )
@@ -116,6 +116,13 @@ def get_args():
         type=str,
         default=None,
         help="Folder name to save the custom output results (output file folder modified if None)",
+    )
+    parser.add_argument(
+        "--output_path",
+        type=str,
+        default="output",
+        help="Path to the output folder where results will be saved",
+
     )
     parser.add_argument("--dtype", type=str, default="bfloat16", help="Dtype for vllm")
     # Added to avoid running extra generations (it's slow for reasoning models)

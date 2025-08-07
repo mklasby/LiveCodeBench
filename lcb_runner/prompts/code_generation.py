@@ -6,6 +6,8 @@ except ImportError:
     HUMAN_PROMPT = None
     AI_PROMPT = None
 
+from transformers import AutoTokenizer
+
 from lcb_runner.lm_styles import LMStyle
 from lcb_runner.benchmarks.code_generation import CodeGenerationProblem
 
@@ -21,6 +23,9 @@ class PromptConstants:
 
     SYSTEM_MESSAGE_CODEQWEN = (
         f"<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user"
+    )
+    SYSTEM_MESSAGE_QWEN3_NOTHINK = (
+        f"<|im_start|>system\nYou are a helpful assistant. /no_think <|im_end|>\n<|im_start|>user"
     )
 
     SYSTEM_MESSAGE_QWEN_QWQ = f"<|im_start|>system\nYou are a helpful and harmless assistant. You are Qwen developed by Alibaba. You should think step-by-step.<|im_end|>\n<|im_start|>user"
@@ -165,6 +170,28 @@ def get_deepseek_r1_question_template_answer(question: CodeGenerationProblem):
     prompt += f"<｜Assistant｜>"
     return prompt
 
+def get_fusebase_question_template_answer(question: CodeGenerationProblem, hf_model_name: str):
+    prompt = "You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.\n\n"
+    prompt += f"Question: {question.question_content}\n\n"
+    if question.starter_code:
+        prompt += f"{PromptConstants.FORMATTING_MESSAGE_WITH_STARTER_CODE}\n"
+        prompt += f"```python\n{question.starter_code}\n```\n\n"
+    else:
+        prompt += f"{PromptConstants.FORMATTING_WITHOUT_STARTER_CODE}\n"
+        prompt += f"```python\n# YOUR CODE HERE\n```\n\n"
+    tokenizer = AutoTokenizer.from_pretrained(
+        hf_model_name
+    )
+    prompt = tokenizer.apply_chat_template(
+        [{"role": "user", "content": prompt}],
+        tokenize=False,
+        add_generation_prompt=True,
+        truncation=False,
+        padding=False,
+        enable_thinking=False,
+    )
+    return prompt
+
 
 with open("lcb_runner/prompts/few_shot_examples/generation/func.json") as f:
     func = json.load(f)
@@ -207,7 +234,7 @@ def get_base_model_question_template_answer(question: CodeGenerationProblem):
 
 
 def format_prompt_generation(
-    question: CodeGenerationProblem, LanguageModelStyle: LMStyle
+    question: CodeGenerationProblem, LanguageModelStyle: LMStyle, hf_model_name: str | None = None,
 ) -> str:
     if LanguageModelStyle in [
         LMStyle.OpenAIChat,
@@ -323,6 +350,18 @@ def format_prompt_generation(
     if LanguageModelStyle == LMStyle.CodeQwenInstruct:
         prompt = f"{PromptConstants.SYSTEM_MESSAGE_CODEQWEN}\n\n"
         prompt += f"{get_codeqwen_question_template_answer(question)}"
+        return prompt
+
+    if LanguageModelStyle == LMStyle.Qwen3NoThinking:
+        prompt = f"{PromptConstants.SYSTEM_MESSAGE_QWEN3_NOTHINK}\n\n"
+        prompt += f"{get_codeqwen_question_template_answer(question)}"
+        return prompt
+
+    if LanguageModelStyle == LMStyle.FuseBase:
+        if hf_model_name is None:
+            raise ValueError("hf_model_name must be provided for FuseBase style")
+        prompt = f"{PromptConstants.SYSTEM_MESSAGE_GENERIC}\n\n"
+        prompt += f"{get_fusebase_question_template_answer(question, hf_model_name)}"
         return prompt
 
     if LanguageModelStyle == LMStyle.QwQ:
