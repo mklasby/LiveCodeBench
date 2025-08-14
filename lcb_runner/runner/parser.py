@@ -60,7 +60,7 @@ def get_args():
     )
     parser.add_argument("--top_p", type=float, default=0.95, help="Top p for sampling")
     parser.add_argument(
-        "--max_tokens", type=int, default=2000, help="Max tokens for sampling"
+        "--max_tokens", type=int, default=16384, help="Max tokens for sampling"
     )
     parser.add_argument(
         "--multiprocess",
@@ -137,6 +137,17 @@ def get_args():
         type=str,
         default=None,
         help="End date for the contest to filter the evaluation file (format - YYYY-MM-DD)",
+    )
+    parser.add_argument(
+        "--enable_thinking",
+        action="store_true",
+        help="Enable thinking for the model (used in vllm server runner)",
+    )
+    parser.add_argument(
+        "--base_url",
+        type=str,
+        default="http://0.0.0.0:8000/v1/completions",
+        help="Base URL for OpenAI API",
     )
 
     args = parser.parse_args()

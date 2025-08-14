@@ -179,24 +179,25 @@ def get_fusebase_question_template_answer(question: CodeGenerationProblem, hf_mo
     else:
         prompt += f"{PromptConstants.FORMATTING_WITHOUT_STARTER_CODE}\n"
         prompt += f"```python\n# YOUR CODE HERE\n```\n\n"
-    tokenizer = AutoTokenizer.from_pretrained(
-        hf_model_name
-    )
-    prompt = tokenizer.apply_chat_template(
-        [{"role": "user", "content": prompt}],
-        tokenize=False,
-        add_generation_prompt=True,
-        truncation=False,
-        padding=False,
-        enable_thinking=False,
-    )
+    # tokenizer = AutoTokenizer.from_pretrained(
+    #     hf_model_name
+    # )
+    # prompt = tokenizer.apply_chat_template(
+    #     [{"role": "user", "content": prompt}],
+    #     tokenize=False,
+    #     add_generation_prompt=True,
+    #     truncation=False,
+    #     padding=False,
+    #     enable_thinking=False,
+    # )
     return prompt
 
-
-with open("lcb_runner/prompts/few_shot_examples/generation/func.json") as f:
+import pathlib
+file_dir = pathlib.Path(__file__).parent.resolve()
+with open(file_dir / "few_shot_examples/generation/func.json") as f:
     func = json.load(f)
 
-with open("lcb_runner/prompts/few_shot_examples/generation/stdin.json") as f:
+with open(file_dir / "few_shot_examples/generation/stdin.json") as f:
     stdin = json.load(f)
 
 

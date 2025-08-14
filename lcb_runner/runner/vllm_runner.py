@@ -7,6 +7,7 @@ except ImportError as e:
 
 from lcb_runner.runner.base_runner import BaseRunner
 
+MAX_MODEL_LEN = 128000
 
 class VLLMRunner(BaseRunner):
     def __init__(self, args, model):
@@ -14,24 +15,31 @@ class VLLMRunner(BaseRunner):
         model_tokenizer_path = (
             model.model_name if args.local_model_path is None else args.local_model_path
         )
+        max_model_len = 131072
+        # if "llama" in model_tokenizer_path.lower():
+        #     max_model_len = 128000
         self.llm = LLM(
             model=model_tokenizer_path,
             tokenizer=model_tokenizer_path,
             tensor_parallel_size=args.tensor_parallel_size,
             dtype=args.dtype,
             enforce_eager=True,
+            # enforce_eager=False,
             disable_custom_all_reduce=True,
+            # disable_custom_all_reduce=False,
             enable_prefix_caching=args.enable_prefix_caching,
             trust_remote_code=args.trust_remote_code,
+            max_model_len=max_model_len,
+            max_num_seqs=2
         )
         self.sampling_params = SamplingParams(
             n=self.args.n,
-            max_tokens=self.args.max_tokens,
+            max_tokens=args.max_tokens,
             temperature=self.args.temperature,
             top_p=self.args.top_p,
             frequency_penalty=0,
             presence_penalty=0,
-            stop=self.args.stop,
+            # stop=self.args.stop,
         )
 
     def _run_single(self, prompt: str) -> list[str]:

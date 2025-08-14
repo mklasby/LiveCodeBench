@@ -2,6 +2,9 @@ import os
 import json
 import logging
 
+import torch
+import argparse
+
 from lcb_runner.runner.parser import get_args
 from lcb_runner.utils.scenarios import Scenario
 from lcb_runner.lm_styles import LanguageModelStore
@@ -19,8 +22,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def main():
-    args = get_args()
+def main(args):
+    # args = get_args()
 
     model = LanguageModelStore[args.model]
     benchmark, format_prompt = build_prompt_benchmark(args)
@@ -227,5 +230,91 @@ def main():
             json.dump(save_eval_results, f, indent=4)
 
 
+def get_args_dict(
+    model="gpt-3.5-turbo-0301",
+    local_model_path=None,
+    trust_remote_code=False,
+    scenario=Scenario.codegeneration,
+    not_fast=False,
+    release_version="release_latest",
+    cot_code_execution=False,
+    n=10,
+    codegen_n=10,
+    temperature=0.2,
+    top_p=0.95,
+    max_tokens=16384,
+    multiprocess=0,
+    stop="###",
+    continue_existing=False,
+    continue_existing_with_eval=False,
+    use_cache=False,
+    cache_batch_size=100,
+    debug=False,
+    evaluate=False,
+    num_process_evaluate=12,
+    timeout=60,
+    openai_timeout=90,
+    tensor_parallel_size=-1,
+    enable_prefix_caching=False,
+    custom_output_file=None,
+    custom_output_save_name=None,
+    output_path="output",
+    dtype="bfloat16",
+    start_date=None,
+    end_date=None,
+    enable_thinking=False,
+    base_url="http://0.0.0.0:8000/v1/completions",
+):
+    if isinstance(scenario, str):
+        scenario = Scenario[scenario]
+    args = argparse.Namespace(
+        model=model,
+        local_model_path=local_model_path,
+        trust_remote_code=trust_remote_code,
+        scenario=scenario,
+        not_fast=not_fast,
+        release_version=release_version,
+        cot_code_execution=cot_code_execution,
+        n=n,
+        codegen_n=codegen_n,
+        temperature=temperature,
+        top_p=top_p,
+        max_tokens=max_tokens,
+        multiprocess=multiprocess,
+        stop=stop,
+        continue_existing=continue_existing,
+        continue_existing_with_eval=continue_existing_with_eval,
+        use_cache=use_cache,
+        cache_batch_size=cache_batch_size,
+        debug=debug,
+        evaluate=evaluate,
+        num_process_evaluate=num_process_evaluate,
+        timeout=timeout,
+        openai_timeout=openai_timeout,
+        tensor_parallel_size=tensor_parallel_size,
+        enable_prefix_caching=enable_prefix_caching,
+        custom_output_file=custom_output_file,
+        custom_output_save_name=custom_output_save_name,
+        output_path=output_path,
+        dtype=dtype,
+        start_date=start_date,
+        end_date=end_date,
+        enable_thinking=enable_thinking,
+        base_url=base_url,
+    )
+
+    args.stop = args.stop.split(",")
+
+    if args.tensor_parallel_size == -1:
+        args.tensor_parallel_size = torch.cuda.device_count()
+
+    if args.multiprocess == -1:
+        args.multiprocess = os.cpu_count()
+
+    return args
+
+
+
 if __name__ == "__main__":
-    main()
+    args = get_args()
+    main(args)

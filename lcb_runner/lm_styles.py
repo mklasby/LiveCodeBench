@@ -702,6 +702,20 @@ LanguageModelList: list[LanguageModel] = [
         link="https://huggingface.co/Qwen/Qwen3-30B-A3B",
     ),
     LanguageModel(
+        "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        "Llama-4-Scout-17B-16E-Instruct",
+        LMStyle.FuseBase,
+        datetime(2024, 6, 30),
+        link="https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    ),
+    LanguageModel(
+        "zai-org/GLM-4.5-Air",
+        "GLM-4.5-Air",
+        LMStyle.FuseBase,
+        datetime(2024, 6, 30),
+        link="https://huggingface.co/zai-org/GLM-4.5-Air",
+    ),
+    LanguageModel(
         "azerogpt",
         "AzeroGPT-64b",
         LMStyle.CodeQwenInstruct,
