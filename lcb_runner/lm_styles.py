@@ -898,6 +898,13 @@ LanguageModelList: list[LanguageModel] = [
         datetime(2024, 4, 1),
         "https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1",
     ),
+    LanguageModel(
+        "Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8",
+        "Qwen3-Coder-480B-A35B-Instruct-FP8",
+        LMStyle.FuseBase,
+        datetime(2024, 4, 1),
+        "https://huggingface.co/mistralai/Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8",
+    ),
 ]
 
 LanguageModelStore: dict[str, LanguageModel] = {
