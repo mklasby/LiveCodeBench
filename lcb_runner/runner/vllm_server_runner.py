@@ -49,7 +49,7 @@ class VLLMServerRunner(BaseRunner):
         super().__init__(args, model)
         self.model_name = model.model_name if args.local_model_path is None else args.local_model_path
         self.enable_thinking = args.enable_thinking
-        self.client = openai.AsyncOpenAI(base_url=args.base_url, api_key="EMPTY")
+        self.client = openai.AsyncOpenAI(base_url=args.base_url, api_key="EMPTY", timeout=1800)
         self.client_kwargs = {
             "model": self.model_name,
             "max_tokens": self.args.max_tokens,
