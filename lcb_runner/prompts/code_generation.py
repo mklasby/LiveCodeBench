@@ -170,7 +170,7 @@ def get_deepseek_r1_question_template_answer(question: CodeGenerationProblem):
     prompt += f"<｜Assistant｜>"
     return prompt
 
-def get_fusebase_question_template_answer(question: CodeGenerationProblem, hf_model_name: str):
+def get_AlchemoeBase_question_template_answer(question: CodeGenerationProblem, hf_model_name: str):
     prompt = "You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests.\n\n"
     prompt += f"Question: {question.question_content}\n\n"
     if question.starter_code:
@@ -358,11 +358,11 @@ def format_prompt_generation(
         prompt += f"{get_codeqwen_question_template_answer(question)}"
         return prompt
 
-    if LanguageModelStyle == LMStyle.FuseBase:
+    if LanguageModelStyle == LMStyle.AlchemoeBase:
         if hf_model_name is None:
-            raise ValueError("hf_model_name must be provided for FuseBase style")
+            raise ValueError("hf_model_name must be provided for AlchemoeBase style")
         prompt = f"{PromptConstants.SYSTEM_MESSAGE_GENERIC}\n\n"
-        prompt += f"{get_fusebase_question_template_answer(question, hf_model_name)}"
+        prompt += f"{get_AlchemoeBase_question_template_answer(question, hf_model_name)}"
         return prompt
 
     if LanguageModelStyle == LMStyle.QwQ:

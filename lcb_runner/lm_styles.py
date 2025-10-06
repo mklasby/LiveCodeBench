@@ -34,7 +34,7 @@ class LMStyle(Enum):
 
     TogetherAI = "TogetherAI"
     Qwen3NoThinking = "Qwen3NoThinking"
-    FuseBase = "FuseBase"
+    AlchemoeBase = "AlchemoeBase"
 
 
 @dataclass
@@ -697,21 +697,21 @@ LanguageModelList: list[LanguageModel] = [
     LanguageModel(
         "Qwen/Qwen3-30B-A3B",
         "Qwen3-30B-A3B",
-        LMStyle.FuseBase,
+        LMStyle.AlchemoeBase,
         datetime(2024, 6, 30),
         link="https://huggingface.co/Qwen/Qwen3-30B-A3B",
     ),
     LanguageModel(
         "meta-llama/Llama-4-Scout-17B-16E-Instruct",
         "Llama-4-Scout-17B-16E-Instruct",
-        LMStyle.FuseBase,
+        LMStyle.AlchemoeBase,
         datetime(2024, 6, 30),
         link="https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct",
     ),
     LanguageModel(
         "zai-org/GLM-4.5-Air",
         "GLM-4.5-Air",
-        LMStyle.FuseBase,
+        LMStyle.AlchemoeBase,
         datetime(2024, 6, 30),
         link="https://huggingface.co/zai-org/GLM-4.5-Air",
     ),
@@ -887,21 +887,21 @@ LanguageModelList: list[LanguageModel] = [
     LanguageModel(
         "baidu/ERNIE-4.5-21B-A3B-PT",
         "ERNIE-4.5-21B-A3B-PT",
-        LMStyle.FuseBase,
+        LMStyle.AlchemoeBase,
         datetime(2024, 4, 1),
         "https://huggingface.co/baidu/ERNIE-4.5-21B-A3B-PT",
     ),
     LanguageModel(
         "mistralai/Mixtral-8x7B-Instruct-v0.1",
         "Mixtral-8x7B-Instruct-v0.1",
-        LMStyle.FuseBase,
+        LMStyle.AlchemoeBase,
         datetime(2024, 4, 1),
         "https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1",
     ),
     LanguageModel(
         "Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8",
         "Qwen3-Coder-480B-A35B-Instruct-FP8",
-        LMStyle.FuseBase,
+        LMStyle.AlchemoeBase,
         datetime(2024, 4, 1),
         "https://huggingface.co/mistralai/Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8",
     ),
