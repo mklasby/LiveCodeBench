@@ -2,7 +2,7 @@ from lcb_runner.lm_styles import LMStyle, LanguageModel
 
 
 def build_runner(args, model: LanguageModel):
-    if model.model_style == LMStyle.AlchemoeBase:
+    if model.model_style == LMStyle.ReapBase:
         from lcb_runner.runner.vllm_server_runner import VLLMServerRunner
         
         return VLLMServerRunner(args, model)
