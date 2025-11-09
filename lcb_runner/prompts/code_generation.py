@@ -362,7 +362,7 @@ def format_prompt_generation(
         if hf_model_name is None:
             raise ValueError("hf_model_name must be provided for ReapBase style")
         prompt = f"{PromptConstants.SYSTEM_MESSAGE_GENERIC}\n\n"
-        prompt += f"{get_ReapBase_question_template_answer(question, hf_model_name)}"
+        prompt += f"{get_reap_base_question_template_answer(question, hf_model_name)}"
         return prompt
 
     if LanguageModelStyle == LMStyle.QwQ:
